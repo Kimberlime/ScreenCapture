@@ -1,4 +1,4 @@
-#v1.0
+#v1.1
 #below three lines need to be changed in each capture.
 APP_NAME="flo"
 CAPTURE_FOLDER_PATH="/sdcard/screencap/raw"
@@ -17,7 +17,8 @@ while $CAPTURE_STOP
 do
 
 CAPTURE_INDEX=$((CAPTURE_INDEX+1))
-adb shell "screencap $CAPTURE_FOLDER_PATH/$CAPTURE_INDEX.raw"
+CAPTURE_FILE_NAME=$(printf "%03d" "$CAPTURE_INDEX")
+adb shell "screencap $CAPTURE_FOLDER_PATH/$CAPTURE_FILE_NAME.raw"
 
 #do while loop in a background to be able to get input.
 done &
@@ -45,8 +46,9 @@ while (($CONVERT_INDEX < $FILE_NUMBER))
 do
 
 CONVERT_INDEX=$((CONVERT_INDEX+1))
-FILENAME="$RAW_FILE_PATH/$CONVERT_INDEX"
-OUTPUT_FILENAME="$PNG_FILE_PATH/$CONVERT_INDEX"
+CONVERT_FILE_NAME=$(printf "%03d" "$CONVERT_INDEX")
+FILENAME="$RAW_FILE_PATH/$CONVERT_FILE_NAME"
+OUTPUT_FILENAME="$PNG_FILE_PATH/$CONVERT_FILE_NAME"
 
 # remove the header
 tail -c +13 $FILENAME.raw > $FILENAME.rgba
